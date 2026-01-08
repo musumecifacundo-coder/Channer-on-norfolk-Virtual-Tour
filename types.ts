@@ -1,4 +1,4 @@
-export type View = 'home' | 'packages';
+export type View = 'home' | 'packages' | 'tour';
 
 export interface Room {
   id: string;
@@ -8,6 +8,7 @@ export interface Room {
   priceGuide: string;
   imageUrl: string;
   features: string[];
+  tourData?: any; // Added to support 360 tour data injection
 }
 
 export interface Review {

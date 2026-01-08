@@ -5,9 +5,9 @@ const experiences = [
   {
     id: 'emily-bay',
     category: 'Nature & Relax',
-    title: 'Emily Bay Lagoon',
+    title: 'Emily Bay',
     description: "One of the world's most beautiful bays. Crystal clear, calm waters protected by a coral reef—perfect for swimming or snorkeling straight from the golden sand.",
-    imageUrl: 'https://picsum.photos/600/800?random=50', // Vertical aspect for card
+    imageUrl: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FGemini_Generated_Image_tmju3ztmju3ztmju.png?alt=media',
     icons: [
       { icon: <Waves size={16} />, label: 'Swim' },
       { icon: <Fish size={16} />, label: 'Snorkel' },
@@ -19,7 +19,7 @@ const experiences = [
     category: 'History & Culture',
     title: 'Kingston Historic Area',
     description: "A UNESCO World Heritage site. Wander through living history among 18th-century ruins, seaside museums, and tales of the Bounty mutineers.",
-    imageUrl: 'https://picsum.photos/600/800?random=51',
+    imageUrl: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FUnesco.png?alt=media',
     icons: [
       { icon: <Castle size={16} />, label: 'Heritage' },
       { icon: <BookOpen size={16} />, label: 'Museums' },

@@ -16,11 +16,18 @@ import { View } from './types';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('home');
 
-  return (
-    <div className="min-h-screen flex flex-col font-sans text-gray-800 antialiased selection:bg-norfolk-clay selection:text-white">
-      <Header currentView={currentView} onNavigate={setCurrentView} />
-      <main className="flex-grow">
-        {currentView === 'home' ? (
+  const renderContent = () => {
+    switch (currentView) {
+      case 'packages':
+        return (
+          <>
+            <Packages />
+            <Enquiry />
+          </>
+        );
+      case 'home':
+      default:
+        return (
           <>
             <Hero />
             <WhyStay />
@@ -31,13 +38,18 @@ const App: React.FC = () => {
             <Reviews />
             <Enquiry />
           </>
-        ) : (
-          <>
-            <Packages />
-            <Enquiry />
-          </>
-        )}
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col font-sans text-gray-800 antialiased selection:bg-norfolk-clay selection:text-white">
+      <Header currentView={currentView} onNavigate={setCurrentView} />
+      
+      <main className="flex-grow">
+        {renderContent()}
       </main>
+      
       <Footer />
       <LiveChat />
     </div>

@@ -5,23 +5,23 @@ import { Review } from '../types';
 const reviews: Review[] = [
   {
     id: '1',
-    author: 'Margaret & David',
-    location: 'Sydney, NSW',
-    text: "Exactly what we needed. Quiet, spotless, and the host went above and beyond to ensure our car hire was sorted before we even landed. It felt less like a hotel and more like staying with an old friend.",
+    author: 'Debra & Mark',
+    location: 'Google Review',
+    text: "Steve and Kim are amazing hosts. Nothing was too much trouble. We stayed in a Garden unit which was spacious, very clean and comfortable. The location is excellent, just a short walk to the shops and cafes of Burnt Pine, yet very quiet and peaceful.",
     rating: 5
   },
   {
     id: '2',
-    author: 'Helen P.',
-    location: 'Brisbane, QLD',
-    text: "The location is perfect. Just far enough from town to hear nothing but the birds, but close enough to walk to dinner. The apartment was equipped with everything, down to the real ground coffee.",
+    author: 'Geoff H.',
+    location: 'Google Review',
+    text: "This is our second stay at Channers. We love the location, the gardens are magnificent, and the apartments are well appointed. Having the car included in the package makes everything so easy from the moment you land. Highly recommended.",
     rating: 5
   },
   {
     id: '3',
-    author: 'John S.',
-    location: 'Melbourne, VIC',
-    text: "Channers is a gem. The gardens are beautiful. We appreciated the personal touch and the genuine care shown. Will definitely return next winter.",
+    author: 'Susan T.',
+    location: 'Google Review',
+    text: "A home away from home. The Ocean View apartment had breathtaking views of the valley and sea. It was wonderful to have a full kitchen and laundry facilities. The internet speed was surprisingly good for an island!",
     rating: 5
   }
 ];
@@ -40,11 +40,14 @@ export const Reviews: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {reviews.map((review) => (
-            <div key={review.id} className="bg-white/5 p-8 rounded-lg border border-white/10 backdrop-blur-sm">
-              <p className="font-serif text-lg leading-relaxed mb-6 italic opacity-90">
-                "{review.text}"
-              </p>
-              <div className="flex items-center justify-between mt-auto">
+            <div key={review.id} className="bg-white/5 p-8 rounded-lg border border-white/10 backdrop-blur-sm flex flex-col">
+              <div className="mb-6">
+                 <span className="text-4xl text-norfolk-clay font-serif opacity-50">“</span>
+                 <p className="font-serif text-lg leading-relaxed italic opacity-90 -mt-4 relative z-10">
+                   {review.text}
+                 </p>
+              </div>
+              <div className="flex items-center justify-between mt-auto pt-6 border-t border-white/10">
                 <div>
                    <p className="font-bold font-sans text-sm">{review.author}</p>
                    <p className="text-xs text-norfolk-sand opacity-60 uppercase tracking-wider">{review.location}</p>

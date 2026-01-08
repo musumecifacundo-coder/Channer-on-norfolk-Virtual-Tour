@@ -12,7 +12,7 @@ export const Hero: React.FC = () => {
       {/* Background - Simulating a video or high-res image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://picsum.photos/1920/1080?grayscale&blur=2" 
+          src="https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FNorfolk.png?alt=media&token=4eaf7691-3b54-40a7-99a3-fb72015ae382" 
           alt="Norfolk Island Coastline" 
           className="w-full h-full object-cover"
         />
@@ -21,6 +21,11 @@ export const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        {/* Brand Pre-header */}
+        <span className="block font-sans text-xs md:text-sm font-bold tracking-[0.3em] text-norfolk-sand mb-4 uppercase opacity-90">
+          Channers on Norfolk
+        </span>
+
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 leading-tight">
           A warm, personal stay <br />
           <span className="italic text-4xl md:text-6xl lg:text-7xl">in the heart of Norfolk Island</span>

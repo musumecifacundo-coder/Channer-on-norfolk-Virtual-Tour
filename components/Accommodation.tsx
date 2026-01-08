@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from './Button';
-import { Users, BedDouble, Bath, Wifi, Car, Plane, Coffee, ArrowRight, Trees, Waves, Move3d } from 'lucide-react';
+import { Users, BedDouble, Bath, Wifi, Car, Plane, Coffee, ArrowRight, Trees, Waves, X, Rotate3d } from 'lucide-react';
+import { Standalone360Viewer } from './Standalone360Viewer';
+import { OCEAN_PENTHOUSE_DATA } from '../data/tourData';
 
 type ViewType = 'garden' | 'ocean';
 
@@ -10,6 +12,119 @@ const inclusions = [
   { icon: <Wifi size={20} />, label: "Stay Connected", sub: "Free Wi-Fi & Local Calls" },
   { icon: <Coffee size={20} />, label: "Island Tour", sub: "Half-day orientation" },
 ];
+
+// --- INTERNAL COMPONENT: RoomCard (Trigger Only) ---
+interface RoomCardProps {
+  room: any;
+  activeView: ViewType;
+  onOpenTour: (data: any) => void;
+}
+
+const RoomCard: React.FC<RoomCardProps> = ({ room, activeView, onOpenTour }) => {
+  // PRELOADING LOGIC:
+  // When user hovers the card, we assume they might click. 
+  // We fetch the high-res image of the DEFAULT scene immediately into the browser cache.
+  const handleMouseEnter = () => {
+    if (room.tourData) {
+      const startSceneId = room.tourData.defaultScene;
+      const startScene = room.tourData.scenes.find((s: any) => s.id === startSceneId);
+      
+      if (startScene && startScene.image) {
+        const img = new Image();
+        img.src = startScene.image; // Triggers browser cache download
+        // We can also preload the thumbnail if strictly necessary, but usually high-res is the bottleneck
+      }
+    }
+  };
+
+  return (
+    <div 
+      className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+      onMouseEnter={handleMouseEnter} // Trigger predictive loading
+    >
+      
+      {/* Card Image / Tour Trigger */}
+      <div className="relative h-64 bg-gray-100 overflow-hidden cursor-pointer" onClick={() => room.tourData && onOpenTour(room.tourData)}>
+        <img 
+            src={room.image} 
+            alt={room.title} 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+        />
+        
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-norfolk-green uppercase tracking-wider shadow-sm z-10">
+            {room.type}
+        </div>
+
+        {/* 360 Trigger Button Overlay */}
+        {room.tourData && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-colors z-0">
+                <button 
+                onClick={(e) => { e.stopPropagation(); onOpenTour(room.tourData); }}
+                className="flex items-center gap-2 bg-norfolk-sand/90 hover:bg-white text-norfolk-green px-5 py-2.5 rounded-full font-serif text-sm font-bold shadow-lg transform translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+                >
+                <Rotate3d size={18} />
+                View Virtual Tour
+                </button>
+            </div>
+        )}
+      </div>
+
+      {/* Card Content */}
+      <div className="p-8 flex flex-col flex-grow">
+        <div className="flex justify-between items-start mb-4">
+          <div>
+            <h3 className="font-serif text-2xl text-gray-900 leading-tight">{room.title}</h3>
+            <span className="text-norfolk-clay text-sm font-medium">{room.price}</span>
+          </div>
+          <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded text-xs font-bold text-gray-600">
+            <Users size={14} /> {room.capacity}
+          </div>
+        </div>
+
+        {/* Specs Grid */}
+        <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm text-gray-600 mb-6">
+          <div className="flex items-center gap-2">
+            <BedDouble size={16} className="text-norfolk-green" />
+            <span className="truncate">{room.beds}</span>
+          </div>
+          <div className="flex items-center gap-2">
+             <Bath size={16} className="text-norfolk-green" />
+             <span className="truncate">{room.baths}</span>
+          </div>
+          <div className="flex items-center gap-2 col-span-2">
+            {activeView === 'garden' ? <Trees size={16} className="text-norfolk-green" /> : <Waves size={16} className="text-norfolk-ocean" />}
+            <span>{room.view}</span>
+          </div>
+        </div>
+
+        <p className="font-sans text-gray-500 text-sm leading-relaxed mb-8 flex-grow">
+          {room.desc}
+        </p>
+
+        <div className="mt-auto space-y-3">
+          <Button 
+            onClick={() => document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' })}
+            className="w-full group-hover:bg-norfolk-green group-hover:text-white transition-colors"
+            variant="outline"
+          >
+            Check Availability <ArrowRight size={16} className="ml-2" />
+          </Button>
+          
+           {/* Mobile Fallback Text */}
+           {room.tourData && (
+             <button 
+               onClick={() => onOpenTour(room.tourData)}
+               className="w-full text-center text-xs text-norfolk-green font-bold uppercase tracking-widest md:hidden"
+             >
+               View 360° Tour
+             </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 const roomData = {
   garden: [
@@ -52,7 +167,7 @@ const roomData = {
       image: 'https://picsum.photos/800/600?random=2'
     },
     {
-      id: '2-bed-ocean',
+      id: '2-bed-ocean', 
       type: '2-Bedroom Apartment',
       title: 'Ocean View Penthouse',
       capacity: '2-4 Guests',
@@ -61,17 +176,44 @@ const roomData = {
       view: 'Panoramic Pacific Views',
       desc: 'Our premier accommodation. Expansive living areas and a large balcony commanding the best views.',
       price: 'Premium Experience',
-      image: 'https://picsum.photos/800/600?random=20'
+      image: 'https://picsum.photos/800/600?random=20',
+      tourData: OCEAN_PENTHOUSE_DATA // Injecting the tour data here
     }
   ]
 };
 
 export const Accommodation: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('garden');
+  
+  // Modal State
+  const [activeTour, setActiveTour] = useState<any | null>(null);
+  const [currentSceneId, setCurrentSceneId] = useState<string>('');
 
-  const handle360Click = () => {
-    document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' });
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeTour) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [activeTour]);
+
+  const handleOpenTour = (data: any) => {
+    setActiveTour(data);
+    setCurrentSceneId(data.defaultScene);
   };
+
+  const handleCloseTour = () => {
+    setActiveTour(null);
+    setCurrentSceneId('');
+  };
+
+  // Compute current scene object
+  const currentScene = useMemo(() => {
+    if (!activeTour || !currentSceneId) return null;
+    return activeTour.scenes.find((s: any) => s.id === currentSceneId) || activeTour.scenes[0];
+  }, [activeTour, currentSceneId]);
 
   return (
     <section id="accommodation" className="py-20 bg-white">
@@ -126,72 +268,7 @@ export const Accommodation: React.FC = () => {
         {/* SECTION C: ROOM CARDS (COMPARATIVE GRID) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {roomData[activeView].map((room) => (
-            <div key={room.id} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
-              
-              {/* Card Image */}
-              <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={room.image} 
-                  alt={room.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                />
-                
-                {/* 360 Tour Button (Overlay) */}
-                <div className="absolute bottom-4 right-4 z-10">
-                   <button 
-                     onClick={handle360Click}
-                     className="bg-white/90 hover:bg-white backdrop-blur-md text-gray-800 text-xs font-bold px-3 py-2 rounded-lg shadow-sm flex items-center gap-2 transition-colors"
-                   >
-                     <Move3d size={14} className="text-norfolk-green" /> 360° Tour
-                   </button>
-                </div>
-
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-norfolk-green uppercase tracking-wider">
-                  {room.type}
-                </div>
-              </div>
-
-              {/* Card Content */}
-              <div className="p-8 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="font-serif text-2xl text-gray-900 leading-tight">{room.title}</h3>
-                    <span className="text-norfolk-clay text-sm font-medium">{room.price}</span>
-                  </div>
-                  <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded text-xs font-bold text-gray-600">
-                    <Users size={14} /> {room.capacity}
-                  </div>
-                </div>
-
-                {/* Specs Grid */}
-                <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm text-gray-600 mb-6">
-                  <div className="flex items-center gap-2">
-                    <BedDouble size={16} className="text-norfolk-green" />
-                    <span className="truncate">{room.beds}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                     <Bath size={16} className="text-norfolk-green" />
-                     <span className="truncate">{room.baths}</span>
-                  </div>
-                  <div className="flex items-center gap-2 col-span-2">
-                    {activeView === 'garden' ? <Trees size={16} className="text-norfolk-green" /> : <Waves size={16} className="text-norfolk-ocean" />}
-                    <span>{room.view}</span>
-                  </div>
-                </div>
-
-                <p className="font-sans text-gray-500 text-sm leading-relaxed mb-8 flex-grow">
-                  {room.desc}
-                </p>
-
-                <Button 
-                  onClick={() => document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full group-hover:bg-norfolk-green group-hover:text-white transition-colors"
-                  variant="outline"
-                >
-                  Check Availability <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </div>
-            </div>
+            <RoomCard key={room.id} room={room} activeView={activeView} onOpenTour={handleOpenTour} />
           ))}
         </div>
 
@@ -201,6 +278,44 @@ export const Accommodation: React.FC = () => {
                 Flexible Cancellation • No Booking Fees • Pay on Arrival
             </p>
         </div>
+
+        {/* FULL SCREEN MODAL */}
+        {activeTour && currentScene && (
+            <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col animate-fade-in">
+                {/* Modal Header */}
+                <div className="flex justify-between items-center p-4 absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/60 to-transparent">
+                    <div className="text-white">
+                        <h3 className="font-serif text-xl leading-none">{activeTour.name}</h3>
+                        <p className="text-xs font-sans opacity-80 mt-1 flex items-center gap-2">
+                             <Rotate3d size={12} /> Virtual Tour Mode
+                        </p>
+                    </div>
+                    <button 
+                        onClick={handleCloseTour}
+                        className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors backdrop-blur-md"
+                    >
+                        <X size={28} />
+                    </button>
+                </div>
+
+                {/* Viewer Container */}
+                <div className="flex-grow w-full h-full relative">
+                    <Standalone360Viewer 
+                        scene={currentScene}
+                        allScenes={activeTour.scenes} // Pass all scenes for smart preloading
+                        onSceneChange={setCurrentSceneId}
+                        autoRotate={false}
+                    />
+                    
+                    {/* Scene Indicator Overlay at Bottom */}
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none">
+                         <div className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-white">
+                            <span className="text-sm font-sans font-medium">{currentScene.title}</span>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        )}
 
       </div>
     </section>

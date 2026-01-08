@@ -129,11 +129,6 @@ export const Packages: React.FC = () => {
               <div key={idx} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100 flex flex-col">
                 <div className="h-64 overflow-hidden relative group">
                   <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute bottom-4 right-4">
-                    <button className="bg-white/90 hover:bg-white text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider text-gray-800">
-                      View 360°
-                    </button>
-                  </div>
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
                   <h3 className="font-serif text-2xl text-norfolk-green mb-2">{pkg.name}</h3>
