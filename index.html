@@ -3,15 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Security Policy: Permissive setup to allow Tailwind CDN (unsafe-eval) and external sources -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;">
     
-    <!-- CSP FIX: Allows Tailwind CDN JIT compiler (unsafe-eval) and inline styles -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:;">
-
     <title>Channers on Norfolk | Boutique Accommodation</title>
-    
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -38,26 +34,15 @@
         }
       }
     </script>
-    
-    <!-- Fallback CSS & Visibility Enforcer -->
     <style>
       body {
         background-color: #F2F0E9; /* norfolk-sand */
         color: #2D3748;
-        font-family: sans-serif;
-        /* FORCE VISIBILITY: Prevents white screen if Tailwind takes time to load */
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
       }
       .smooth-scroll {
         scroll-behavior: smooth;
       }
-      #root {
-        min-height: 100vh;
-      }
     </style>
-    
   <script type="importmap">
 {
   "imports": {
@@ -72,8 +57,5 @@
 </head>
   <body class="smooth-scroll">
     <div id="root"></div>
-    
-    <!-- APP ENTRY POINT: Relative path critical for Vercel -->
-    <script type="module" src="./index.tsx"></script>
   </body>
 </html>
