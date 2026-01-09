@@ -1,13 +1,13 @@
 import React from 'react';
-import { Star } from 'lucide-react';
+import { Star, MapPin, ExternalLink } from 'lucide-react';
 import { Review } from '../types';
 
 const reviews: Review[] = [
   {
     id: '1',
-    author: 'Debra & Mark',
+    author: 'Gregory Watts',
     location: 'Google Review',
-    text: "Steve and Kim are amazing hosts. Nothing was too much trouble. We stayed in a Garden unit which was spacious, very clean and comfortable. The location is excellent, just a short walk to the shops and cafes of Burnt Pine, yet very quiet and peaceful.",
+    text: "We endorse all the other 5 star reviews. Kerrie-Ann and Steve have perfected hospitality. Total relaxation as soon as we walked into our room. Loved the car included, particularly the part about 'leave it at the airport unlocked - we'll get it later'! Loved the mobile phone provided to use anywhere on the island. Snorkel, masks and flippers and beach towels complimentary, too. Excellent advice on tours, restaurants, etc too. Will definitely be going back soon.",
     rating: 5
   },
   {
@@ -19,9 +19,9 @@ const reviews: Review[] = [
   },
   {
     id: '3',
-    author: 'Susan T.',
+    author: 'Stirling Turpin',
     location: 'Google Review',
-    text: "A home away from home. The Ocean View apartment had breathtaking views of the valley and sea. It was wonderful to have a full kitchen and laundry facilities. The internet speed was surprisingly good for an island!",
+    text: "What a pleasant and wonderful stay we had here. A credit to Kerri-Ann and Steve. The units are spacious and very comfortable, with everything that is needed for a enjoyable hassle free stay. A walk around the well kept gardens and some interesting features is well worth it. If we ever return to Norfolk Island, will certainly put this accommodation on the top of our list. Thank you Keri-Ann and Steve.",
     rating: 5
   }
 ];
@@ -38,7 +38,7 @@ export const Reviews: React.FC = () => {
           <p className="mt-2 text-norfolk-sand opacity-80 font-sans text-sm">4.9 Star Average on Google</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {reviews.map((review) => (
             <div key={review.id} className="bg-white/5 p-8 rounded-lg border border-white/10 backdrop-blur-sm flex flex-col">
               <div className="mb-6">
@@ -55,6 +55,35 @@ export const Reviews: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-center gap-4">
+            <a 
+              href="https://www.google.com/maps/place/Channers+On+Norfolk+-+Norfolk+Island+Holiday+Packages,+Tours,+Accommodation+%7C+Travel+to+Norfolk+Island/@-29.0401923,167.9527381,17z/data=!4m8!3m7!1s0x6c4bd7943df366e5:0x251b68dc570a659a!8m2!3d-29.040197!4d167.955313!9m1!1b1!16s%2Fg%2F12hkw6h4f?entry=ttu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 border border-white/30 hover:bg-white/10 text-white px-6 py-3 rounded-full transition-all font-sans text-sm uppercase tracking-wider"
+            >
+                <MapPin size={16} />
+                Reviews on Google Maps
+                <ExternalLink size={14} className="opacity-70" />
+            </a>
+
+            <a 
+              href="https://www.tripadvisor.com/Hotel_Review-g446955-d656949-Reviews-Channers_on_Norfolk-Kingston_Norfolk_Island.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 border border-white/30 hover:bg-[#00AA6C] hover:border-[#00AA6C] text-white px-6 py-3 rounded-full transition-all font-sans text-sm uppercase tracking-wider"
+            >
+                {/* Official White TripAdvisor Logo for Dark Backgrounds */}
+                <img 
+                  src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_logoset_solid_white.svg" 
+                  alt="TripAdvisor" 
+                  className="w-5 h-5 object-contain"
+                />
+                Reviews on TripAdvisor
+                <ExternalLink size={14} className="opacity-70" />
+            </a>
         </div>
       </div>
     </section>

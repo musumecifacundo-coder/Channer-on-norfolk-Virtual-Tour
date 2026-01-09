@@ -12,11 +12,12 @@ export const Hero: React.FC = () => {
       {/* Background - Simulating a video or high-res image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FNorfolk.png?alt=media&token=4eaf7691-3b54-40a7-99a3-fb72015ae382" 
-          alt="Norfolk Island Coastline" 
+          src="https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FChanners%20property.jpg?alt=media" 
+          alt="Channers on Norfolk Property Grounds" 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Overlay - Increased slightly to 50% to ensure text pops against property details */}
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Content */}

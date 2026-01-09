@@ -71,6 +71,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             Experiences
           </button>
           <button
+            onClick={() => handleNavClick('home', '#heritage')}
+            className={`font-sans text-sm font-medium tracking-wide hover:text-norfolk-clay transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+          >
+            Our History
+          </button>
+          <button
             onClick={() => handleNavClick('home', '#enquiry')}
             className={`px-5 py-2 font-serif text-lg leading-none border transition-all ${isScrolled ? 'border-norfolk-green text-norfolk-green hover:bg-norfolk-green hover:text-white' : 'border-white text-white hover:bg-white hover:text-norfolk-green'}`}
           >
@@ -111,6 +117,12 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
             className="text-left font-serif text-xl text-norfolk-green py-2 border-b border-gray-200"
           >
             Experiences
+          </button>
+          <button
+            onClick={() => handleNavClick('home', '#heritage')}
+            className="text-left font-serif text-xl text-norfolk-green py-2 border-b border-gray-200"
+          >
+            Our History
           </button>
           <button
              onClick={() => handleNavClick('home', '#enquiry')}

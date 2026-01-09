@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
 import { Check, Plane, Car, Home, Coffee, Wifi, ChevronDown, ChevronUp } from 'lucide-react';
+import { TrustIndicators } from './TrustIndicators';
 
 export const Packages: React.FC = () => {
   const [departureCity, setDepartureCity] = useState<'sydney' | 'brisbane'>('sydney');
@@ -162,13 +163,10 @@ export const Packages: React.FC = () => {
       {/* Trust & FAQ */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-12">
-            <h2 className="font-serif text-3xl text-norfolk-green mb-6">Good to know</h2>
-            <div className="inline-flex gap-4 items-center justify-center grayscale opacity-70 mb-8">
-                {/* Placeholders for trust badges */}
-                <div className="h-12 w-12 bg-gray-200 rounded-full flex items-center justify-center text-[10px] font-bold text-gray-500 text-center leading-tight">TripAdvisor<br/>Excellence</div>
-                <div className="h-12 w-12 bg-gray-200 rounded-full flex items-center justify-center text-[10px] font-bold text-gray-500 text-center leading-tight">Local<br/>Expert</div>
-            </div>
+          <div className="mb-12">
+            <h2 className="font-serif text-3xl text-norfolk-green text-center mb-6">Good to know</h2>
+            {/* Replaced Placeholders with new Component */}
+            <TrustIndicators />
           </div>
 
           <div className="space-y-4">

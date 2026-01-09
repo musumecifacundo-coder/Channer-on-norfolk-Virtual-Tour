@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { WhyStay } from './components/WhyStay';
+import { Heritage } from './components/Heritage';
 import { Accommodation } from './components/Accommodation';
 import { Experiences } from './components/Experiences';
 import { Gallery } from './components/Gallery';
@@ -11,6 +12,8 @@ import { Footer } from './components/Footer';
 import { LiveChat } from './components/LiveChat';
 import { PackagePromo } from './components/PackagePromo';
 import { Packages } from './components/Packages';
+import { TrustIndicators } from './components/TrustIndicators';
+import { Location } from './components/Location';
 import { View } from './types';
 
 const App: React.FC = () => {
@@ -34,8 +37,11 @@ const App: React.FC = () => {
             <PackagePromo onNavigate={setCurrentView} />
             <Accommodation />
             <Experiences />
+            <Heritage />
             <Gallery />
             <Reviews />
+            <Location />
+            <TrustIndicators />
             <Enquiry />
           </>
         );
