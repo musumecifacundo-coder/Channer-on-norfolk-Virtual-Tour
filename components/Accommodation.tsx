@@ -138,7 +138,7 @@ const roomData = {
       view: 'Lush Subtropical Gardens',
       desc: 'Ground floor sanctuary with direct access to the gardens. Total privacy and effortless relaxation.',
       price: 'Best Value',
-      image: 'https://picsum.photos/800/600?random=1'
+      image: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FGarden%202%20guest%202.jpg?alt=media'
     },
     {
       id: '2-bed-garden',
@@ -150,7 +150,7 @@ const roomData = {
       view: 'Private Garden Courtyard',
       desc: 'Spacious ground-floor living. Ideal for families or friends wanting shared space with privacy.',
       price: 'Group Favorite',
-      image: 'https://picsum.photos/800/600?random=10'
+      image: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FGarden%204%20guest%202.jpg?alt=media'
     }
   ],
   ocean: [
@@ -164,7 +164,7 @@ const roomData = {
       view: 'Ocean & Valley Vistas',
       desc: 'Elevated position capturing the ocean breeze. Watch the sunset from your private balcony.',
       price: 'Most Popular',
-      image: 'https://picsum.photos/800/600?random=2'
+      image: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FOcean%20VIew.jpg?alt=media'
     },
     {
       id: '2-bed-ocean', 
@@ -176,14 +176,14 @@ const roomData = {
       view: 'Panoramic Pacific Views',
       desc: 'Our premier accommodation. Expansive living areas and a large balcony commanding the best views.',
       price: 'Premium Experience',
-      image: 'https://picsum.photos/800/600?random=20',
+      image: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/Imagenes%20de%20unidades%20flat%2FGarden%204%20guest.jpg?alt=media',
       tourData: OCEAN_PENTHOUSE_DATA // Injecting the tour data here
     }
   ]
 };
 
 export const Accommodation: React.FC = () => {
-  const [activeView, setActiveView] = useState<ViewType>('garden');
+  const [activeView, setActiveView] = useState<ViewType>('ocean');
   
   // Modal State
   const [activeTour, setActiveTour] = useState<any | null>(null);
@@ -242,25 +242,26 @@ export const Accommodation: React.FC = () => {
             {/* Sliding Background */}
             <div 
               className={`absolute top-1.5 bottom-1.5 w-[140px] rounded-full shadow-md transition-all duration-300 ease-in-out 
-              ${activeView === 'garden' 
-                ? 'left-1.5 bg-norfolk-green' 
-                : 'left-[148px] bg-norfolk-ocean'}`}
+              ${activeView === 'ocean' 
+                ? 'left-1.5 bg-norfolk-ocean' 
+                : 'left-[148px] bg-norfolk-green'}`}
             />
             
-            {/* Buttons */}
-            <button
-              onClick={() => setActiveView('garden')}
-              className={`relative z-10 w-[140px] py-2 rounded-full text-sm font-bold flex items-center justify-center gap-2 transition-colors duration-300
-              ${activeView === 'garden' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
-            >
-              <Trees size={16} /> Garden View
-            </button>
+            {/* Buttons (Ocean First) */}
             <button
               onClick={() => setActiveView('ocean')}
               className={`relative z-10 w-[140px] py-2 rounded-full text-sm font-bold flex items-center justify-center gap-2 transition-colors duration-300
               ${activeView === 'ocean' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
             >
               <Waves size={16} /> Ocean View
+            </button>
+            
+            <button
+              onClick={() => setActiveView('garden')}
+              className={`relative z-10 w-[140px] py-2 rounded-full text-sm font-bold flex items-center justify-center gap-2 transition-colors duration-300
+              ${activeView === 'garden' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              <Trees size={16} /> Garden View
             </button>
           </div>
         </div>

@@ -138,20 +138,26 @@ export const Enquiry: React.FC = () => {
       ? `${dates.start.toLocaleDateString()} to ${dates.end ? dates.end.toLocaleDateString() : '?'}`
       : 'Dates not selected';
 
+    // CONFIGURATION FOR WEB3FORMS
+    // Integrated Access Key
+    const ACCESS_KEY = '32a1743c-eb23-4a1b-88d3-c0079be2b3ba'; 
+
     const submissionData = {
-      _subject: `New Enquiry: ${formData.firstName} ${formData.lastName}`,
+      access_key: ACCESS_KEY,
+      subject: `New Enquiry from ${formData.firstName} ${formData.lastName}`,
+      from_name: "Channers Website",
+      botcheck: "", // Spam protection (hidden field)
+      
+      // Custom Data
       name: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
+      email: formData.email, 
       message: formData.message,
       dates: dateString,
       interestedInPackage: formData.packageInterest ? "Yes" : "No",
-      _captcha: "false",
-      _template: "table",
-      _autoresponse: "Thank you for contacting Channers on Norfolk. We have received your enquiry and will be in touch shortly to confirm availability."
     };
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/facu.ai.musumeci@gmail.com", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { 
           'Content-Type': 'application/json',
@@ -160,14 +166,16 @@ export const Enquiry: React.FC = () => {
         body: JSON.stringify(submissionData)
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setStatus('success');
       } else {
-        console.error("FormSubmit Error:", await response.text());
+        console.error("Web3Forms Error:", result);
         setStatus('error');
       }
     } catch (error) {
-      console.error(error);
+      console.error("Network Error:", error);
       setStatus('error');
     }
   };
@@ -208,13 +216,6 @@ export const Enquiry: React.FC = () => {
                   Steve or Kim will check the calendar and get back to you at <strong>{formData.email}</strong> shortly.
                 </p>
                 
-                {/* Important Note for Owner/Testing */}
-                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded text-xs text-yellow-800 mb-6 text-left">
-                    <strong>⚠️ Important (First Time Use):</strong><br/>
-                    If you do not see the email in your inbox, please <strong>check your SPAM folder</strong>. 
-                    You must find the email from "FormSubmit" and click <strong>"Activate"</strong> to start receiving enquiries.
-                </div>
-
                 <button 
                   onClick={() => setStatus('idle')}
                   className="mt-2 text-norfolk-green font-bold text-sm hover:underline"
@@ -224,6 +225,9 @@ export const Enquiry: React.FC = () => {
               </div>
             ) : (
               <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* Hidden Honeypot for Web3Forms Spam Protection */}
+                <input type="checkbox" name="botcheck" className="hidden" style={{display: 'none'}} />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
@@ -322,7 +326,7 @@ export const Enquiry: React.FC = () => {
                 {status === 'error' && (
                   <div className="text-red-600 text-sm flex flex-col items-center justify-center gap-2 mt-2 bg-red-50 p-3 rounded">
                     <div className="flex items-center gap-2">
-                      <AlertCircle size={16} /> System is busy.
+                      <AlertCircle size={16} /> System is busy or Key is missing.
                     </div>
                     <a href={generateMailtoLink()} className="font-bold underline">Click here to send email manually</a>
                   </div>

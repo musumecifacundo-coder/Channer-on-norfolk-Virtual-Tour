@@ -1,5 +1,5 @@
 import React from 'react';
-import { Waves, Fish, Palmtree, Castle, BookOpen, Footprints, Mountain, Camera, Binoculars, ArrowRight } from 'lucide-react';
+import { Waves, Fish, Palmtree, Castle, BookOpen, Footprints, Camera, Binoculars, ArrowRight } from 'lucide-react';
 
 const experiences = [
   {
@@ -27,13 +27,13 @@ const experiences = [
     ]
   },
   {
-    id: 'mount-pitt',
-    category: 'Views & Adventure',
-    title: 'Mount Pitt National Park',
-    description: "The island's green heart. Drive or walk to the summit for breathtaking 360° views of the ocean, and spot the rare Green Parrot in the ferns.",
-    imageUrl: 'https://picsum.photos/600/800?random=52',
+    id: 'birdwatching',
+    category: 'Nature & Wildlife',
+    title: 'Birdwatching',
+    description: "Norfolk Island is a haven for birdlife. Explore the National Park to spot the rare Green Parrot, the Morepork owl, and seabirds nesting along the cliffs.",
+    imageUrl: 'https://firebasestorage.googleapis.com/v0/b/tourstudio-1c4a8.firebasestorage.app/o/pajato.png?alt=media',
     icons: [
-      { icon: <Mountain size={16} />, label: '360° Views' },
+      { icon: <Binoculars size={16} />, label: 'Spotting' },
       { icon: <Footprints size={16} />, label: 'Trails' },
       { icon: <Camera size={16} />, label: 'Photo' },
     ]
