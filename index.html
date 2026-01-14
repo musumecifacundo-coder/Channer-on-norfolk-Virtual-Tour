@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 
-    <!-- Tailwind se cargará vía PostCSS en el build de Vercel para máximo rendimiento, 
-         pero mantenemos el script de config para la lógica de colores -->
+    <!-- Tailwind Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -56,7 +55,7 @@
 </head>
   <body class="smooth-scroll">
     <div id="root"></div>
-    <!-- Punto de entrada explícito para Vite/Vercel -->
+    <!-- Vite procesará este archivo durante el build -->
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
