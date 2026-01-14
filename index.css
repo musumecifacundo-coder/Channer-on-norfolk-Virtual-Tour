@@ -1,4 +1,6 @@
-/* Standard CSS only - @tailwind directives are handled by the CDN script in index.html */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .smooth-scroll {
   scroll-behavior: smooth;
@@ -9,16 +11,13 @@ body {
   color: #2D3748;
 }
 
-/* Animations using standard CSS */
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Pannellum overrides */
-.pnlm-load-box { display: none !important; }
-.pnlm-container { background-color: #f2f0e9; }

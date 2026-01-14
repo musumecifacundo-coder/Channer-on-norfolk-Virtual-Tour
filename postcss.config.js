@@ -1,1 +1,6 @@
-// File removed. PostCSS is not required when using Tailwind Play CDN.
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
