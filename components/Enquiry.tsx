@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from './Button';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, CheckCircle, Loader2, AlertCircle, Mail } from 'lucide-react';
@@ -138,12 +139,13 @@ export const Enquiry: React.FC = () => {
       ? `${dates.start.toLocaleDateString()} to ${dates.end ? dates.end.toLocaleDateString() : '?'}`
       : 'Dates not selected';
 
-    // CONFIGURATION FOR WEB3FORMS (Using VITE_ prefix for standard environments like Vercel/Vite)
-    const ACCESS_KEY = (import.meta as any).env?.VITE_WEB3FORMS_ACCESS_KEY || (process.env as any).VITE_WEB3FORMS_ACCESS_KEY; 
+    // CONFIGURACIÓN PARA VITE (Se lee de Vercel Environment Variables)
+    // Fix: Using type assertion to (import.meta as any) to resolve 'env' property access in TypeScript
+    const ACCESS_KEY = (import.meta as any).env?.VITE_WEB3FORMS_ACCESS_KEY; 
 
     if (!ACCESS_KEY) {
-        console.warn("Web3Forms Access Key is missing. Simulating successful submission for demo purposes.");
-        // For development/demo purposes, we simulate success if no key is present
+        console.warn("Web3Forms Access Key is missing in .env or Vercel Settings.");
+        // Simulamos éxito para demo si no hay llave, pero en producción fallará
         setTimeout(() => setStatus('success'), 1500);
         return;
     }
@@ -153,7 +155,6 @@ export const Enquiry: React.FC = () => {
       subject: `New Enquiry from ${formData.firstName} ${formData.lastName}`,
       from_name: "Channers Website",
       botcheck: "", 
-      
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email, 
       message: formData.message,
@@ -176,11 +177,9 @@ export const Enquiry: React.FC = () => {
       if (response.ok && result.success) {
         setStatus('success');
       } else {
-        console.error("Web3Forms Error:", result);
         setStatus('error');
       }
     } catch (error) {
-      console.error("Network Error:", error);
       setStatus('error');
     }
   };
@@ -220,7 +219,6 @@ export const Enquiry: React.FC = () => {
                 <p className="text-gray-500 text-sm max-w-xs mx-auto mb-6">
                   Steve or Kim will check the calendar and get back to you at <strong>{formData.email}</strong> shortly.
                 </p>
-                
                 <button 
                   onClick={() => setStatus('idle')}
                   className="mt-2 text-norfolk-green font-bold text-sm hover:underline"
@@ -230,7 +228,6 @@ export const Enquiry: React.FC = () => {
               </div>
             ) : (
               <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Hidden Honeypot for Web3Forms Spam Protection */}
                 <input type="checkbox" name="botcheck" className="hidden" style={{display: 'none'}} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -275,12 +272,11 @@ export const Enquiry: React.FC = () => {
                   <input 
                     type="text" 
                     readOnly 
-                    value={dates.start ? `${dates.start.toLocaleDateString()} ${dates.end ? `- ${dates.end.toLocaleString()}` : ''}` : 'Please select dates from calendar'}
+                    value={dates.start ? `${dates.start.toLocaleDateString()} ${dates.end ? `- ${dates.end.toLocaleDateString()}` : ''}` : 'Please select dates from calendar'}
                     className="w-full p-3 border border-gray-300 bg-gray-50 text-gray-500 rounded-sm"
                   />
                 </div>
                 
-                {/* Package Interest Checkbox */}
                 <div className="flex items-start gap-3 bg-white p-4 rounded-sm border border-gray-200">
                    <input 
                      type="checkbox" 
@@ -318,8 +314,6 @@ export const Enquiry: React.FC = () => {
                       "Send Enquiry"
                     )}
                   </Button>
-
-                  {/* Fallback Direct Email Button */}
                   <a 
                     href={generateMailtoLink()}
                     className="flex items-center justify-center w-full py-3 text-sm text-norfolk-clay border border-transparent hover:bg-gray-50 rounded transition-colors gap-2"
@@ -331,9 +325,9 @@ export const Enquiry: React.FC = () => {
                 {status === 'error' && (
                   <div className="text-red-600 text-sm flex flex-col items-center justify-center gap-2 mt-2 bg-red-50 p-3 rounded">
                     <div className="flex items-center gap-2">
-                      <AlertCircle size={16} /> System is busy or Key is missing.
+                      <AlertCircle size={16} /> Error enviando el formulario.
                     </div>
-                    <a href={generateMailtoLink()} className="font-bold underline">Click here to send email manually</a>
+                    <a href={generateMailtoLink()} className="font-bold underline text-xs">Usa el botón de email arriba</a>
                   </div>
                 )}
                 
