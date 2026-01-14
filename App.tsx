@@ -13,6 +13,7 @@ import { PackagePromo } from './components/PackagePromo';
 import { Packages } from './components/Packages';
 import { TrustIndicators } from './components/TrustIndicators';
 import { Location } from './components/Location';
+import { FloatingContact } from './components/FloatingContact';
 import { View } from './types';
 
 const App: React.FC = () => {
@@ -54,6 +55,9 @@ const App: React.FC = () => {
       <main className="flex-grow">
         {renderContent()}
       </main>
+      
+      {/* Persistent Call to Action */}
+      <FloatingContact />
       
       <Footer />
     </div>
